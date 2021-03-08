@@ -23,7 +23,7 @@
         <h2 class="title-field">Поле противника: {{killedEnemyShips}} убито</h2>
         <div class="field-right">
           <div class="grid-container">
-            <div :class="{ 'grid-item': true, active: item.fill, 'cell-hit': item.hit == 1, 'cell-miss': item.hit == 2  }"
+            <div :class="{ 'grid-item': true, 'cell-hit': item.hit == 1, 'cell-miss': item.hit == 2  }"
                v-for="item in grid_enemy" 
                @click="userMove(item)" 
                :key="chars[item.coll] + item.row"
