@@ -65,9 +65,9 @@ export default {
             killedEnemyShips: 0,
             killedUserShips: 0,
             user: this.username,
-            move: 1,
-            grid_user: arr1, 
-            grid_enemy: arr2,
+            move: 1, //чей ход, 1 - ход игрока, 2 - ход копьютера
+            grid_user: arr1, //игровое поле пользователя
+            grid_enemy: arr2,//игровое поле комрьютера
             ships_user: [],
             ships_enemy: [],
             chars: '-АБВГДЕЖЗИК'.split(''),
@@ -80,14 +80,11 @@ export default {
         }
     },
     created(){
-      // this.generateShips();
-    //   this.ships.push( this.createShip({row: 3, coll: 3}, 3, 0) )
-    //   this.ships.push( this.createShip({row: 2, coll: 6}, 3, 1) )
         this.generateShips()
     },
 
     methods:{
-        userMove(cell){
+        userMove(cell){ //обработка хода игрока
           if(this.move==1 ){ // если ход игрока
             if(cell.fill){
               cell.hit = 1
@@ -118,7 +115,7 @@ export default {
           }
         },
 
-        enemyMove(){
+        enemyMove(){ //обработка хода компьютера
           console.log('Я сходил!')
           let cellIndex = this.randomInteger(0,99)
           let selectedCell = this.grid_user[cellIndex]
@@ -144,7 +141,7 @@ export default {
           this.move=1
         },
 
-        checkWinner(){
+        checkWinner(){ //проверка окончания игры и победителя
           if( this.ships_user.length == this.killedUserShips ){
             console.log( 'ПОБЕДА КОМПЬЮТЕРА' )
             this.$router.push({ name: 'Победитель', params: {winner: 'Компьютер'}})
@@ -158,7 +155,7 @@ export default {
           return 0 // игра продолжается
         },
 
-        getCellIndex(row, coll){
+        getCellIndex(row, coll){ //возврат индекса
             for( var i = 0; i < this.grid_user.length; i++ ){
                 if( this.grid_user[i].row === row && this.grid_user[i].coll === coll ){
                     return i
@@ -173,12 +170,6 @@ export default {
                     sections: [], //клекти в которых находятся сексии корабля
                     damagedSections: [], // поврежденные секции корабля
                     alive: true, // жив или убит корабль
-                    // borders: {
-                    //     left: 0, 
-                    //     right: 0, 
-                    //     top: 0, 
-                    //     bottom: 0
-                    // },
                 } 
             let newCell = null
             let grid = gamer == 1 ? this.grid_user : this.grid_enemy
@@ -216,10 +207,6 @@ export default {
                     newShip.sections.push( newCell )
                 }
             }
-            // if(!this.checkBorders(newShip)) // если кораблик попадает в границы другого, то не рисуем
-            //     return newShip
-
-            // console.log(newShip, this.grid_user[newShip.sections[0]])
             if(gamer==1){
               this.ships_user.push(newShip)
               for( let indexCell of newShip.sections){
@@ -282,15 +269,6 @@ export default {
                     return true
             }
             return result          
-            
-            // return this.grid_user[this.getCellIndex(head.row+offset, head.coll-1)].fill || 
-            //         this.grid_user[this.getCellIndex(head.row+offset, head.coll+1)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row-1, head.coll)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row+offset+1, head.coll)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row-1, head.coll-1)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row-1, head.coll+1)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row+offset+1, head.coll+1)].fill ||
-            //         this.grid_user[this.getCellIndex(head.row+offset+1, head.coll-1)].fill
         },
 
         randomInteger(min, max) {
@@ -303,7 +281,6 @@ export default {
 
             let headIndex = this.randomInteger(0,99)
             let direction = this.randomInteger(0,1)
-            // var shipSize = 4
             let counter = 0
             for( let shipSize in this.planeShips ){
                 for ( let i = 1; i <= this.planeShips[shipSize]; i++) {
@@ -314,13 +291,11 @@ export default {
                         direction = this.randomInteger(0,1)
                         counter ++
                     }
-                    // this.ships_user.push(ship)
                 }
             }
 
             headIndex = this.randomInteger(0,99)
             direction = this.randomInteger(0,1)
-            // var shipSize = 4
             counter = 0
             for( let shipSize in this.planeShips ){
                 for ( let i = 1; i <= this.planeShips[shipSize]; i++) {
@@ -331,7 +306,6 @@ export default {
                         direction = this.randomInteger(0,1)
                         counter ++
                     }
-                    // this.ships_user.push(ship)
                 }
             }
 
@@ -340,10 +314,6 @@ export default {
     },
 
 }
-        
-
-
-
 </script>
 
 <style>
