@@ -72,10 +72,10 @@ export default {
             ships_enemy: [],
             chars: '-АБВГДЕЖЗИК'.split(''),
             planeShips: { // ! коллекция где указано сколько каких кораблей должно быть на поле
-                1: 4, //  запись означает 4 однопалубника(1)
+                4: 1,
+                3: 2, //  запись означает 4 однопалубника(1)
                 2: 3,
-                3: 2,
-                4: 1
+                1: 4,
             },
         }
     },
@@ -103,14 +103,14 @@ export default {
               }
             }  
             else{
+              if( cell.hit == 2 ){
+                return 0
+              }
               cell.hit = 2
             }
             this.move=2
             if(this.checkWinner() == 0){
               setTimeout(()=>{ this.enemyMove() }, 2000) // передать управление противнику
-            }
-            else{
-              //
             }
           }
         },
@@ -300,7 +300,7 @@ export default {
             for( let shipSize in this.planeShips ){
                 for ( let i = 1; i <= this.planeShips[shipSize]; i++) {
                     counter = 0
-                    while( counter < 20 && (this.grid_enemy[headIndex].fill == true
+                    while( counter < 30 && (this.grid_enemy[headIndex].fill == true
                             || this.createShip( {row: this.grid_enemy[headIndex].row, coll: this.grid_enemy[headIndex].coll}, shipSize, direction, 2 ) == null )){
                         headIndex = this.randomInteger(0,99)
                         direction = this.randomInteger(0,1)
